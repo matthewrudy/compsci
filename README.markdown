@@ -14,7 +14,7 @@ import "github.com/matthewrudy/compsci/hashtable"
 hash := NewHashTable()
 
 // set a value
-hash.Put("key", "value")
+hash.Set("key", "value")
 
 // get a value
 hash.Get("key")

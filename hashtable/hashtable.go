@@ -29,10 +29,10 @@ func (self *HashTable) hashKey(key string) (n int) {
 	return hashString(key) % 50
 }
 
-func (self *HashTable) Put(key string, value interface{}) {
+func (self *HashTable) Set(key string, value interface{}) {
 	n := self.hashKey(key)
 	row := self.rows[n]
-	row.Put(value)
+	row.Set(value)
 	self.size = self.size + 1
 }
 
@@ -53,7 +53,7 @@ func (self *row) Get(key string) (value interface{}) {
 	}
 }
 
-func (self *row) Put(value interface{}) *row {
+func (self *row) Set(value interface{}) *row {
 	if self == nil {
 		return &row{
 			value: value,
