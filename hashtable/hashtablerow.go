@@ -6,10 +6,10 @@ type hashTableRow struct {
 }
 
 func (self *hashTableRow) Get(key string) (value interface{}) {
-	if self == nil {
-		return nil
-	} else {
+	if self.key == key {
 		return self.value
+	} else {
+		return nil
 	}
 }
 

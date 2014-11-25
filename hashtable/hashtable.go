@@ -22,7 +22,11 @@ func NewHashTable(tableSize int) *HashTable {
 }
 
 func (self *HashTable) hashKey(key string) (n int) {
-	return hashString(key) % len(self.rows)
+	return hashString(key) % self.tableSize()
+}
+
+func (self *HashTable) tableSize() (n int) {
+	return len(self.rows)
 }
 
 func (self *HashTable) Set(key string, value interface{}) {
