@@ -17,6 +17,10 @@ func (self *hashTableRow) find(key string) (row *hashTableRow) {
 }
 
 func (self *hashTableRow) Get(key string) (value interface{}) {
+	if self == nil {
+		return nil
+	}
+
 	row := self.find(key)
 
 	if row != nil {

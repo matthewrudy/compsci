@@ -23,6 +23,17 @@ func TestGet(t *testing.T) {
 	}
 }
 
+func TestGetEmpty(t *testing.T) {
+	key := "abc"
+
+	hash := NewHashTable(5)
+	value := hash.Get(key)
+
+	if value != nil {
+		t.Error("Got %v, expected %v", value, nil)
+	}
+}
+
 func TestSize(t *testing.T) {
 	key1 := "abc"
 	key2 := "def"
