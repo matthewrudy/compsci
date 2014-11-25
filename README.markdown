@@ -10,8 +10,8 @@ HashTable
 ``` go
 import "github.com/matthewrudy/compsci/hashtable"
 
-// create a hash table
-hash := NewHashTable()
+// create a hash table with a table size of 256
+hash := NewHashTable(256)
 
 // set a value
 hash.Set("key", "value")
