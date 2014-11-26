@@ -2,16 +2,10 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
 )
-
-func parseInt(line string) (parsed int) {
-	parsed, _ = strconv.Atoi(line)
-	return parsed
-}
 
 func checkPalindrome(word string, start int, end int) (success bool) {
 	for {
@@ -51,22 +45,42 @@ func solve(word string) (index int) {
 
 }
 
+func parseInt(line string) (parsed int) {
+	parsed, _ = strconv.Atoi(line)
+	return parsed
+}
+
 func readLine(reader *bufio.Reader) (line string) {
 	line, _ = reader.ReadString('\n')
 	return strings.TrimSpace(line)
 }
 
+func readInt(reader *bufio.Reader) (read int) {
+	line := readLine(reader)
+	return parseInt(line)
+}
+
+func writeLine(writer *bufio.Writer, line string) {
+	writer.WriteString(line)
+	writer.WriteString("\n")
+	writer.Flush()
+}
+
+func writeInt(writer *bufio.Writer, number int) {
+	line := strconv.Itoa(number)
+	writeLine(writer, line)
+}
+
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
+	writer := bufio.NewWriter(os.Stdout)
 
-	line := readLine(reader)
-	count := parseInt(line)
+	count := readInt(reader)
 
 	for i := 0; i < count; i++ {
-		line = readLine(reader)
-
+		line := readLine(reader)
 		index := solve(line)
-		fmt.Println(index)
+		writeInt(writer, index)
 	}
 }
