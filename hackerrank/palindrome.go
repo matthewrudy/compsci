@@ -61,9 +61,13 @@ func main() {
 	for {
 		line, err := reader.ReadString('\n')
 		line = strings.TrimSpace(line)
-		index := solve(line)
 
-		fmt.Println(index)
+		if len(line) > 0 {
+			index := solve(line)
+			fmt.Println(index)
+		} else {
+			fmt.Println("")
+		}
 
 		if err != nil {
 			break
