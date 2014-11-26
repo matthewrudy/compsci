@@ -51,26 +51,22 @@ func solve(word string) (index int) {
 
 }
 
+func readLine(reader *bufio.Reader) (line string) {
+	line, _ = reader.ReadString('\n')
+	return strings.TrimSpace(line)
+}
+
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 
-	// grab the count
-	_, _ = reader.ReadString('\n')
+	line := readLine(reader)
+	count := parseInt(line)
 
-	for {
-		line, err := reader.ReadString('\n')
-		line = strings.TrimSpace(line)
+	for i := 0; i < count; i++ {
+		line = readLine(reader)
 
-		if len(line) > 0 {
-			index := solve(line)
-			fmt.Println(index)
-		} else {
-			fmt.Println("")
-		}
-
-		if err != nil {
-			break
-		}
+		index := solve(line)
+		fmt.Println(index)
 	}
 }
