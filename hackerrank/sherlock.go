@@ -32,6 +32,18 @@ func solve(n int) (solved bool, fives int, threes int) {
 
 }
 
+func writeSolution(writer *bufio.Writer, fives int, threes int) {
+	for i := 0; i < fives; i++ {
+		writer.WriteString("5")
+	}
+
+	for i := 0; i < threes; i++ {
+		writer.WriteString("3")
+	}
+	writer.WriteString("\n")
+	writer.Flush()
+}
+
 func parseInt(line string) (parsed int) {
 	parsed, _ = strconv.Atoi(line)
 	return parsed
@@ -70,16 +82,9 @@ func main() {
 		solved, fives, threes := solve(n)
 
 		if solved {
-			for i := 0; i < fives; i++ {
-				writer.WriteString("5")
-			}
-			for i := 0; i < threes; i++ {
-				writer.WriteString("3")
-			}
+			writeSolution(writer, fives, threes)
 		} else {
-			writer.WriteString("-1")
+			writeLine(writer, "-1")
 		}
-		writer.WriteString("\n")
-		writer.Flush()
 	}
 }
