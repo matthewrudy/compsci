@@ -62,7 +62,6 @@ func readInt(reader *bufio.Reader) (read int) {
 func writeLine(writer *bufio.Writer, line string) {
 	writer.WriteString(line)
 	writer.WriteString("\n")
-	writer.Flush()
 }
 
 func writeInt(writer *bufio.Writer, number int) {
@@ -74,6 +73,8 @@ func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 	writer := bufio.NewWriter(os.Stdout)
+
+	defer writer.Flush()
 
 	count := readInt(reader)
 
