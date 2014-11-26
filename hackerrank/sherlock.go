@@ -7,11 +7,6 @@ import (
 	"strings"
 )
 
-func parseInt(line string) (parsed int) {
-	parsed, _ = strconv.Atoi(strings.TrimSpace(line))
-	return parsed
-}
-
 func solve(n int) (solved bool, fives int, threes int) {
 	fives = n
 
@@ -37,17 +32,41 @@ func solve(n int) (solved bool, fives int, threes int) {
 
 }
 
+func parseInt(line string) (parsed int) {
+	parsed, _ = strconv.Atoi(line)
+	return parsed
+}
+
+func readLine(reader *bufio.Reader) (line string) {
+	line, _ = reader.ReadString('\n')
+	return strings.TrimSpace(line)
+}
+
+func readInt(reader *bufio.Reader) (read int) {
+	line := readLine(reader)
+	return parseInt(line)
+}
+
+func writeLine(writer *bufio.Writer, line string) {
+	writer.WriteString(line)
+	writer.WriteString("\n")
+	writer.Flush()
+}
+
+func writeInt(writer *bufio.Writer, number int) {
+	line := strconv.Itoa(number)
+	writeLine(writer, line)
+}
+
 func main() {
 
 	reader := bufio.NewReader(os.Stdin)
 	writer := bufio.NewWriter(os.Stdout)
 
-	// grab the count
-	_, _ = reader.ReadString('\n')
+	count := readInt(reader)
 
-	for {
-		line, err := reader.ReadString('\n')
-		n := parseInt(line)
+	for i := 0; i < count; i++ {
+		n := readInt(reader)
 		solved, fives, threes := solve(n)
 
 		if solved {
@@ -62,9 +81,5 @@ func main() {
 		}
 		writer.WriteString("\n")
 		writer.Flush()
-
-		if err != nil {
-			break
-		}
 	}
 }
