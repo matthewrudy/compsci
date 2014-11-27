@@ -86,11 +86,15 @@ func main() {
 		countryCounts[country] += 1
 	}
 
-	result := 1
+	result := 0
+	rem := n
+	var this int
 
-	for i := 0; i < n; i++ {
-		if countryCounts[i] > 0 {
-			result *= countryCounts[i]
+	for i := 0; i < n-1; i++ {
+		this = countryCounts[i]
+		if this > 0 {
+			rem -= this
+			result += this * rem
 		}
 	}
 
