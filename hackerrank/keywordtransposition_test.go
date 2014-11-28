@@ -64,33 +64,55 @@ func TestCreateCypher(t *testing.T) {
 
 	cypher = CreateCypher("SPORT")
 
-	// SPORT
-	// ABCDE
-	// FGHIJ
-	// KLMNQ
-	// UVWXY
-	// Z
+	// SPORT   PFAKV
+	// ABCDE   QGBLW
+	// FGHIJ   RHCMX
+	// KLMNQ   SIDNY
+	// UVWXY   TJEOZ
+	// Z       U
 
 	// cypher
-	// A: O
-	// B: C
-	// C: H
-	// D: M
-	// E: W
-	// F: P
-	// G: B
-	// ...
+	// A: Q
+	// B: G
+	// C: B
+	// D: L
+	// E: E
+	// F: R
+	// G: H
+	// H: C
+	// I: M
+	// J: X
+	// K: S
+	// L: I
+	// M: D
+	// N: N
+	// O: A
+	// P: F
+	// Q: Y
+	// R: K
+	// S: P
+	// T: V
+	// U: T
+	// V: J
+	// W: E
+	// X: O
+	// Y: Z
+	// Z: U
 
-	if cypher['A'] != 'O' {
-		t.Errorf("A isn't O, it's %v", string(cypher['A']))
+	if cypher['A'] != 'Q' {
+		t.Errorf("A isn't Q, it's %v", string(cypher['A']))
 	}
 
-	if cypher['B'] != 'C' {
-		t.Errorf("B isn't C, it's %v", string(cypher['B']))
+	if cypher['B'] != 'G' {
+		t.Errorf("B isn't G, it's %v", string(cypher['B']))
 	}
 
-	if cypher['F'] != 'B' {
-		t.Errorf("F isn't B, it's %v", string(cypher['F']))
+	if cypher['O'] != 'A' {
+		t.Errorf("O isn't A, it's %v", string(cypher['O']))
+	}
+
+	if cypher['Z'] != 'U' {
+		t.Errorf("Z isn't U, it's %v", string(cypher['Z']))
 	}
 }
 

@@ -104,6 +104,14 @@ func RemoveDuplicateRunes(runes []rune) (deduped []rune) {
 	return runes
 }
 
+// remove all the provided runes from the array
+func RemoveRunes(array []rune, targets []rune) (without []rune) {
+	for _, target := range targets {
+		_, array = RemoveRune(array, target)
+	}
+	return array
+}
+
 // return a new slice exluding the found rune
 func RemoveRune(array []rune, target rune) (removed bool, without []rune) {
 	for i, found := range array {
@@ -164,77 +172,49 @@ func makeSlice(front []rune, back []rune) (joined []rune) {
 }
 
 func CreateCypher(keyword string) (cypher map[rune]rune) {
-	// iterators
-	var i int
-	var j int
-
 	allRunes := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	kwRunes := []rune(keyword)
 
 	// remove duplicates from keyword
 	kwRunes = RemoveDuplicateRunes(kwRunes)
 
-	// remove kwRunes from allRunes
-	remainingRunes := allRunes
-
-	for _, kwRune := range kwRunes {
-		removed, slice := RemoveRune(remainingRunes, kwRune)
-
-		if removed {
-			remainingRunes = slice
-		} //else {
-		//	panic(fmt.Sprintf("rune %v is missing from %v, %v", string(kwRune), string(remainingRunes), string(kwRunes)))
-		//}
-	}
-
 	// store the adjusted kwlength for later
 	kwLength := len(kwRunes)
 
-	// now we'll go through all the letters and put them
-	// into arrays, one for each column
-	matrix := make([][]rune, kwLength)
+	// arrange all the letters remaining
+	remRunes := RemoveRunes(allRunes, kwRunes)
 
-	// initialize the sub arrays
-	for i, _ := range matrix {
-		matrix[i] = make([]rune, 26/kwLength+1)
-
-		// stick the keyword letters in place
-		matrix[i][0] = kwRunes[i]
-	}
-
-	i = 0
-	j = 1
-
-	// stick the remaining letters in place
-	for _, rune := range remainingRunes {
-		matrix[i][j] = rune
-
-		i++
-		if i == kwLength {
-			i = 0
-			j++
-		}
-	}
-
-	// now we can make our cypher
-	cypher = make(map[rune]rune, 26)
-
+	// find the ordering
 	kwOrder := OrderRunes(kwRunes)
 
-	runeIndex := 0
-	var rune rune
+	// init the cypher
+	cypher = make(map[rune]rune, 26)
 
-	for i, _ = range kwOrder {
-		for j = 0; j < len(matrix[i]); j++ {
-			rune = allRunes[runeIndex]
-			cypher[rune] = matrix[i][j]
-			runeIndex += 1
+	// loop vars
+	letterIndex := 0
+	var sourceRune rune
+	var targetRune rune
 
-			if runeIndex == 26 {
-				return
-			}
+	// loop over the keyword ordering
+	for _, kwCol := range kwOrder {
+		// place the head first
+		sourceRune = allRunes[letterIndex]
+		targetRune = kwRunes[kwCol]
+		cypher[targetRune] = sourceRune
+
+		letterIndex++
+
+		// now loop over remaining runes at the offset
+		for i := kwCol; i < len(remRunes); i += kwLength {
+			sourceRune = allRunes[letterIndex]
+			targetRune = remRunes[i]
+			cypher[targetRune] = sourceRune
+
+			letterIndex++
 		}
+
 	}
+
 	return
 }
 
