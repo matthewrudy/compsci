@@ -8,6 +8,8 @@ import (
 	"strings"
 )
 
+// IO methods
+
 func parseInt(line string) (parsed int) {
 	parsed, _ = strconv.Atoi(line)
 	return parsed
@@ -46,45 +48,68 @@ func main() {
 		keyword := readLine(reader)
 		text := readLine(reader)
 
-		cypher := createCypher(keyword)
+		cypher := CreateCypher(keyword)
 		text = translateText(text, cypher)
 
 		writeLine(writer, text)
 	}
 }
 
-func removeDuplicateRunes(runes []rune) (deduped []rune) {
-	var j int
-	var changed bool
+// Rune Dedupe methods
 
-	deduped = runes
+func RemoveDuplicateRunes(runes []rune) (deduped []rune) {
+	// ABBA
+	// ij
+	// i j
+	// i  j <- remove at j
+	// ABB
+	// i  j
+	// *j hit the end*
+	// ABB
+	//  ij <- remove at j
+	// AB
+	//  ij
+	// *j hit the end*
 
-	for i := 0; i < len(deduped)-2; i++ {
+	i := 0
+
+	// the i loop
+	for {
+
+		if i >= len(runes)-1 {
+			break
+		}
+
+		j := i + 1
+
+		// the j loop
 		for {
-			changed = false
 
-			for j = i + 1; j < len(deduped)-1; j++ {
-				if deduped[i] == deduped[j] {
-					deduped = removeRuneAt(deduped, j)
-					changed = true
-					break
-				}
-			}
-
-			if changed == false {
+			if j >= len(runes) {
 				break
 			}
+
+			if runes[i] == runes[j] {
+				fmt.Print(i, ",", j, "==", runes, "\n")
+				runes = RemoveRuneAt(runes, j)
+				// keep j the same
+			} else {
+				j++
+			}
 		}
+
+		i++
 	}
-	return
+
+	return runes
 }
 
 // return a new slice exluding the found rune
-func removeRune(array []rune, target rune) (removed bool, without []rune) {
+func RemoveRune(array []rune, target rune) (removed bool, without []rune) {
 	for i, found := range array {
 		if found == target {
 			removed = true
-			without = removeRuneAt(array, i)
+			without = RemoveRuneAt(array, i)
 			return
 		}
 	}
@@ -93,7 +118,7 @@ func removeRune(array []rune, target rune) (removed bool, without []rune) {
 	return
 }
 
-func removeRuneAt(array []rune, i int) (without []rune) {
+func RemoveRuneAt(array []rune, i int) (without []rune) {
 	if i >= len(array) {
 		panic("index beyond array")
 	}
@@ -102,12 +127,17 @@ func removeRuneAt(array []rune, i int) (without []rune) {
 		panic("negative index")
 	}
 
-	front := array[0 : i-1]
-
-	if len(array) == i+1 {
-		return front
+	// remove the first element
+	if i == 0 {
+		return array[1:]
 	}
 
+	// remove the last element
+	if len(array) == i+1 {
+		return array[0:i]
+	}
+
+	front := array[0:i]
 	back := array[i+1:]
 	return makeSlice(front, back)
 }
@@ -133,7 +163,7 @@ func makeSlice(front []rune, back []rune) (joined []rune) {
 	return
 }
 
-func createCypher(keyword string) (cypher map[rune]rune) {
+func CreateCypher(keyword string) (cypher map[rune]rune) {
 	// iterators
 	var i int
 	var j int
@@ -141,13 +171,14 @@ func createCypher(keyword string) (cypher map[rune]rune) {
 	allRunes := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	kwRunes := []rune(keyword)
 
-	kwRunes = removeDuplicateRunes(kwRunes)
+	// remove duplicates from keyword
+	kwRunes = RemoveDuplicateRunes(kwRunes)
 
 	// remove kwRunes from allRunes
 	remainingRunes := allRunes
 
 	for _, kwRune := range kwRunes {
-		removed, slice := removeRune(remainingRunes, kwRune)
+		removed, slice := RemoveRune(remainingRunes, kwRune)
 
 		if removed {
 			remainingRunes = slice
@@ -188,7 +219,7 @@ func createCypher(keyword string) (cypher map[rune]rune) {
 	// now we can make our cypher
 	cypher = make(map[rune]rune, 26)
 
-	kwOrder := orderRunes(kwRunes)
+	kwOrder := OrderRunes(kwRunes)
 
 	runeIndex := 0
 	var rune rune
@@ -207,7 +238,7 @@ func createCypher(keyword string) (cypher map[rune]rune) {
 	return
 }
 
-func orderRunes(runes []rune) (ordered []int) {
+func OrderRunes(runes []rune) (ordered []int) {
 	ordered = make([]int, len(runes))
 
 	var i int
