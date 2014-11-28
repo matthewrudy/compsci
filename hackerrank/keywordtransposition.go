@@ -2,7 +2,6 @@ package main
 
 import (
 	"bufio"
-	"fmt"
 	"os"
 	"strconv"
 	"strings"
@@ -90,7 +89,6 @@ func RemoveDuplicateRunes(runes []rune) (deduped []rune) {
 			}
 
 			if runes[i] == runes[j] {
-				fmt.Print(i, ",", j, "==", runes, "\n")
 				runes = RemoveRuneAt(runes, j)
 				// keep j the same
 			} else {
