@@ -48,7 +48,7 @@ func main() {
 		text := readLine(reader)
 
 		cypher := CreateCypher(keyword)
-		text = translateText(text, cypher)
+		text = TranslateText(text, cypher)
 
 		writeLine(writer, text)
 	}
@@ -250,7 +250,7 @@ func OrderRunes(runes []rune) (ordered []int) {
 	}
 }
 
-func translateText(text string, cypher map[rune]rune) (translated string) {
+func TranslateText(text string, cypher map[rune]rune) (translated string) {
 	runes := make([]rune, len(text))
 
 	var nilRune rune

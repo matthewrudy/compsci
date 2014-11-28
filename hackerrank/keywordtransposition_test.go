@@ -116,6 +116,22 @@ func TestCreateCypher(t *testing.T) {
 	}
 }
 
+func TestTranslateText(t *testing.T) {
+	letters := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+	cypher := make(map[rune]rune, 26)
+	for i, rune := range letters {
+		cypher[rune] = letters[26-i-1]
+	}
+
+	output := TranslateText("ABC DEF GHI JKL MNO PQR STU VWX YZ", cypher)
+	expected := "ZYX WVU TSR QPO NML KJI HGF EDC BA"
+	if output != expected {
+		t.Errorf("Got %v, expected %v", output, expected)
+	}
+
+}
+
 func ExpectRunes(t *testing.T, expected string, received []rune) {
 	if expected != string(received) {
 		t.Errorf("Got %v, expected %v", string(received), expected)
