@@ -30,7 +30,7 @@ func TestGetEmpty(t *testing.T) {
 	value := hash.Get(key)
 
 	if value != nil {
-		t.Error("Got %v, expected %v", value, nil)
+		t.Errorf("Got %v, expected %v", value, nil)
 	}
 }
 
