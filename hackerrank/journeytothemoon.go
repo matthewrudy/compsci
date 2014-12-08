@@ -83,7 +83,7 @@ func main() {
 
 	for i := 0; i < n; i++ {
 		country := countries[i]
-		countryCounts[country] += 1
+		countryCounts[country]++
 	}
 
 	result := 0

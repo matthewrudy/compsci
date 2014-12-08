@@ -22,14 +22,8 @@ func solve(n int) (solved bool, fives int, threes int) {
 		threes += 5
 	}
 
-	if fives < 0 {
-		solved = false
-		return
-	} else {
-		solved = true
-		return
-	}
-
+	solved = fives >= 0
+	return
 }
 
 func writeSolution(writer *bufio.Writer, fives int, threes int) {

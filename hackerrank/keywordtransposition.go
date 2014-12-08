@@ -54,8 +54,8 @@ func main() {
 	}
 }
 
-// Rune Dedupe methods
-
+// RemoveDuplicateRunes removes all duplicate runes
+// leaving the first instance intact
 func RemoveDuplicateRunes(runes []rune) (deduped []rune) {
 	// ABBA
 	// ij
@@ -102,7 +102,7 @@ func RemoveDuplicateRunes(runes []rune) (deduped []rune) {
 	return runes
 }
 
-// remove all the provided runes from the array
+// RemoveRunes removes each of the target runes from the slice
 func RemoveRunes(array []rune, targets []rune) (without []rune) {
 	for _, target := range targets {
 		_, array = RemoveRune(array, target)
@@ -110,7 +110,7 @@ func RemoveRunes(array []rune, targets []rune) (without []rune) {
 	return array
 }
 
-// return a new slice exluding the found rune
+// RemoveRune removes the first instance of a rune from the slice
 func RemoveRune(array []rune, target rune) (removed bool, without []rune) {
 	for i, found := range array {
 		if found == target {
@@ -124,6 +124,7 @@ func RemoveRune(array []rune, target rune) (removed bool, without []rune) {
 	return
 }
 
+// RemoveRuneAt returns a slice of runes, with the ith one removed
 func RemoveRuneAt(array []rune, i int) (without []rune) {
 	if i >= len(array) {
 		panic("index beyond array")
@@ -169,6 +170,7 @@ func makeSlice(front []rune, back []rune) (joined []rune) {
 	return
 }
 
+// CreateCypher takes a keyword string and creates a cypher map
 func CreateCypher(keyword string) (cypher map[rune]rune) {
 	allRunes := []rune("ABCDEFGHIJKLMNOPQRSTUVWXYZ")
 	kwRunes := []rune(keyword)
@@ -216,6 +218,7 @@ func CreateCypher(keyword string) (cypher map[rune]rune) {
 	return
 }
 
+// OrderRunes takes a slice of runes, and returns the alphabetical ordering
 func OrderRunes(runes []rune) (ordered []int) {
 	ordered = make([]int, len(runes))
 
@@ -225,7 +228,7 @@ func OrderRunes(runes []rune) (ordered []int) {
 	var changed bool
 
 	// initialize
-	for i, _ = range runes {
+	for i = range runes {
 		ordered[i] = i
 	}
 
@@ -250,6 +253,7 @@ func OrderRunes(runes []rune) (ordered []int) {
 	}
 }
 
+// TranslateText takes the text and the cypher map, and translates it
 func TranslateText(text string, cypher map[rune]rune) (translated string) {
 	runes := make([]rune, len(text))
 
