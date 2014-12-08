@@ -1,5 +1,8 @@
+// Package hashtable implements a hash table
+// with string keys, and int values
 package hashtable
 
+// HashTable is a hash table with string keys and int values
 type HashTable struct {
 	rows []*hashTableRow
 	size int
@@ -14,6 +17,7 @@ func hashString(key string) (hash int) {
 	return hash
 }
 
+// NewHashTable creates a new HashTable with a given table size
 func NewHashTable(tableSize int) *HashTable {
 	return &HashTable{
 		rows: make([]*hashTableRow, tableSize),
@@ -21,28 +25,31 @@ func NewHashTable(tableSize int) *HashTable {
 	}
 }
 
-func (self *HashTable) hashKey(key string) (n int) {
-	return hashString(key) % self.tableSize()
+func (table *HashTable) hashKey(key string) (n int) {
+	return hashString(key) % table.tableSize()
 }
 
-func (self *HashTable) tableSize() (n int) {
-	return len(self.rows)
+func (table *HashTable) tableSize() (n int) {
+	return len(table.rows)
 }
 
-func (self *HashTable) Set(key string, value interface{}) {
-	n := self.hashKey(key)
+// Set sets the value for the provided key
+func (table *HashTable) Set(key string, value interface{}) {
+	n := table.hashKey(key)
 	var added bool
-	self.rows[n], added = self.rows[n].Set(key, value)
+	table.rows[n], added = table.rows[n].Set(key, value)
 	if added {
-		self.size = self.size + 1
+		table.size = table.size + 1
 	}
 }
 
-func (self *HashTable) Get(key string) interface{} {
-	n := self.hashKey(key)
-	return self.rows[n].Get(key)
+// Get gets the value for the provided key
+func (table *HashTable) Get(key string) interface{} {
+	n := table.hashKey(key)
+	return table.rows[n].Get(key)
 }
 
-func (self *HashTable) Size() int {
-	return self.size
+// Size returns the number of keys set in the hash table
+func (table *HashTable) Size() int {
+	return table.size
 }

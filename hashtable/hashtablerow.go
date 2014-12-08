@@ -6,50 +6,48 @@ type hashTableRow struct {
 	next  *hashTableRow
 }
 
-func (self *hashTableRow) find(key string) (row *hashTableRow) {
-	if self.key == key {
-		return self
-	} else if self.next != nil {
-		return self.next.find(key)
+func (row *hashTableRow) find(key string) *hashTableRow {
+	if row.key == key {
+		return row
+	} else if row.next != nil {
+		return row.next.find(key)
 	} else {
 		return nil
 	}
 }
 
-func (self *hashTableRow) Get(key string) (value interface{}) {
-	if self == nil {
+func (row *hashTableRow) Get(key string) (value interface{}) {
+	if row == nil {
 		return nil
 	}
 
-	row := self.find(key)
+	row = row.find(key)
 
-	if row != nil {
-		return row.value
-	} else {
+	if row == nil {
 		return nil
 	}
+
+	return row.value
 }
 
-func (self *hashTableRow) Set(key string, value interface{}) (row *hashTableRow, added bool) {
-	if self == nil {
+func (row *hashTableRow) Set(key string, value interface{}) (newRow *hashTableRow, added bool) {
+	if row == nil {
 		return &hashTableRow{
 			key:   key,
 			value: value,
 		}, true
 	}
 
-	entry := self.find(key)
+	entry := row.find(key)
 
 	if entry == nil {
 		return &hashTableRow{
 			key:   key,
 			value: value,
-			next:  self,
+			next:  row,
 		}, true
-
-	} else {
-		entry.value = value
-
-		return self, false
 	}
+
+	entry.value = value
+	return row, false
 }
